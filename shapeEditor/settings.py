@@ -82,7 +82,7 @@ DATABASES = {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'shapeeditor',
         'USER': 'postgres',
-        'PASSWORD': 'Ananta6473',
+        'PASSWORD': '###',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
