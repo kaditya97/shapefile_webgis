@@ -1,0 +1,70 @@
+<html>
+  <head>
+    <title>ShapeEditor</title>
+    <style>
+      button {
+        background: linear-gradient(to bottom, #45a9c7 5%, #2a8ebd 100%);
+        background-color: #45a9c7;
+        border-radius: 28px;
+        border: 1px solid #1bdbcb;
+        display: inline-block;
+        cursor: pointer;
+        color: #ffffff;
+        font-family: Arial;
+        font-size: 17px;
+        padding: 8px 16px;
+        text-decoration: none;
+        text-shadow: 0px 1px 0px #28665e;
+      }
+      button:hover {
+        background: linear-gradient(to bottom, #2a8ebd 5%, #45a9c7 100%);
+        background-color: #2a8ebd;
+      }
+      button:active {
+        position: relative;
+        top: 1px;
+      }
+    </style>
+    {{ form.media }}
+  </head>
+  <body>
+    <h1>Edit Feature</h1>
+    <form method="POST" action="">
+      <table>
+        <tr>
+          <td></td>
+          <td align="right">
+            <input type="submit" name="delete" value="Delete Feature" />
+          </td>
+        </tr>
+        {{ form.as_table }}
+        <tr>
+          <td></td>
+          <td align="right">
+            <table>
+              {% for attr in attributes %}
+              <tr>
+                <td>{{ attr.0 }}</td>
+                <td>{{ attr.1 }}</td>
+              </tr>
+              {% endfor %}
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td align="center">
+            <input type="submit" value="Save" />
+            &nbsp;
+            <button
+              type="button"
+              onClick='window.location="/edit/{{shapefile.id }}";'
+            >
+              Cancel
+            </button>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </body>
+</html>

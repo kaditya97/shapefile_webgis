@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <title>ShapeEditor</title>
+    <style>
+      #sub,button {
+        background: linear-gradient(to bottom, #45a9c7 5%, #2a8ebd 100%);
+        background-color: #45a9c7;
+        border-radius: 28px;
+        border: 1px solid #1bdbcb;
+        display: inline-block;
+        cursor: pointer;
+        color: #ffffff;
+        font-family: Arial;
+        font-size: 17px;
+        padding: 8px 16px;
+        text-decoration: none;
+        text-shadow: 0px 1px 0px #28665e;
+      }
+      button:hover {
+        background: linear-gradient(to bottom, #2a8ebd 5%, #45a9c7 100%);
+        background-color: #2a8ebd;
+      }
+      button:active {
+        position: relative;
+        top: 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Import Shapefile</h1>
+    {% if errMsg %}
+    <b><i>{{ errMsg }}</i></b>
+    {% endif %}
+    <form enctype="multipart/form-data" method="post" action="import">
+      {{ form.as_p }}
+      <input type="submit" value="Submit" id="sub" />
+      <button type="button" onClick='window.location="/shape-editor";'>
+        Cancel
+      </button>
+    </form>
+  </body>
+</html>

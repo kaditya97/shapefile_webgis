@@ -1,0 +1,106 @@
+<html>
+  {% load static %}
+  {% load leaflet_tags %}
+  <head>
+    {% leaflet_js %}
+    {% leaflet_css %}
+    <title>ShapeEditor</title>
+    <link rel="stylesheet" href="/static/dist/style.css" />
+    <style type="text/css">
+      #gis {
+        width: 1000px;
+        height: 500px;
+        border: 1px solid #ccc;
+      }
+    </style>
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/css/ol.css" type="text/css">
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/build/ol.js"></script> -->
+    <script
+      src="http://code.jquery.com/jquery-2.1.4.min.js"
+      type="text/javascript"
+    ></script>
+    <script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}"></script>
+    <script type="text/javascript">
+      function our_layers(map, options) {
+      //   var url_template = "{{ tms_url }}/1.0/{{ shapefile.id }}/{z}/{x}/{y}.png";
+      //   var projection = ol.proj.get("EPSG:4326");
+      //   var source = new ol.source.XYZ({
+      //     crossOrigin: "null",
+      //     wrapX: false,
+      //     projection: projection,
+      //     tileUrlFunction: function(tileCoord) {
+      //       var z = tileCoord[0] - 1;
+      //       var x = tileCoord[1];
+      //       var y = Math.pow(2, z) + tileCoord[2];
+      //       return url_template
+      //         .replace("{z}", z.toString())
+      //         .replace("{x}", x.toString())
+      //         .replace("{y}", y.toString());
+      //     }
+      //   });
+      //   var layer = new ol.layer.Tile({
+      //     source: source,
+      //     projection: projection
+      //   });
+      //   var view = new ol.View({
+      //     center: [0, 0],
+      //     zoom: 1,
+      //     projection: projection
+      //   });
+        // var map = new ol.Map({ target: "map", layers: [layer], view: view });
+        
+      //   var map = new ol.Map({
+      //   target: 'map',
+      //   layers: [
+      //     new ol.layer.Tile({
+      //       source: new ol.source.OSM()
+      //     })
+      //   ],
+      //   view: new ol.View({
+      //     center: ol.proj.fromLonLat([84.1240, 28.3949]),
+      //     zoom: 4
+      //   })
+      // });
+      var marker = L.marker([27.7172, 85.3240]).addTo(map);
+      var circle = L.circle([27.7172, 85.3240], {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: 5000
+      }).addTo(map);
+      var show = new L.GeoJSON.AJAX("{% url 'json_data' %}",{dataType: "json"});
+      show.addTo(map);
+      // var datasets = new L.GeoJSON.AJAX("/static/dist/province2.geojson");
+      // datasets.addTo(map); 
+      // var showdata = new L.GeoJSON.AJAX('https://gist.githubusercontent.com/kaditya97/40010618300be5b73b0e8d1fef2ee3ec/raw/20360c180f51118a13c53de8b901dee04a925974/province2.geojson',{dataType: "json"});
+      // showdata.addTo(map);
+      // map.on("singleclick", function(e) {
+      //     var request = jQuery.ajax({
+      //       url: "/find_feature",
+      //       data:"{shapefile_id : {{ shapefile.id }}, latitude : e.coordinate[1], longitude : e.coordinate[0]}",
+      //       success: function(response) {
+      //         if (response != "") {
+      //           window.location.href = response;
+      //         }
+      //       }
+      //     });
+      //   });
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Edit Shapefile</h1>
+    <b>Please choose a feature to edit</b>
+    <br />
+    {% leaflet_map "gis" callback="window.our_layers" %}
+    <br />
+    <div style="margin-left:20px">
+      <button type="button" onClick='window.location="{{ add_feature_url }}";'>
+        Add Feature
+      </button>
+      <button type="button" onClick='window.location="/";'>
+        Cancel
+      </button>
+    </div>
+  </body>
+</html>

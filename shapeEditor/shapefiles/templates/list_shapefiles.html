@@ -1,0 +1,102 @@
+<html>
+  {% load static %} {% load leaflet_tags %}
+  <head>
+    {% leaflet_js %} {% leaflet_css %}
+    <title>ShapeEditor</title>
+    <link rel="stylesheet" href="/static/dist/style.css" />
+    <style>
+      #gis {
+        height: 96vh;
+      }
+      #main {
+        display: grid;
+        grid-gap: 10px;
+        grid-template-columns: 60% auto;
+      }
+    </style>
+    <script
+      type="text/javascript"
+      src="{% static 'dist/leaflet.ajax.js' %}"
+    ></script>
+    <script type="text/javascript">
+      function our_layers(map, options) {
+        var marker = L.marker([27.7172, 85.324]).addTo(map).bindPopup("Kathmandu");
+        var circle = L.circle([27.7172, 85.324], {
+          color: "red",
+          fillColor: "#f03",
+          fillOpacity: 0.5,
+          radius: 5000
+        }).addTo(map);
+        var show = new L.GeoJSON.AJAX("{% url 'json_data' %}", {
+          onEachFeature: function(feature,layer){
+            layer.bindPopup(feature.properties.name.toString());
+          }
+        });
+        show.addTo(map);
+        // var datasets = new L.GeoJSON.AJAX("/static/dist/province2.geojson");
+        // datasets.addTo(map);
+        var baseMaps = {
+          "marker":marker
+        };
+        var overlayMaps = {
+          "ownmap": show
+        };
+        L.control.layers(baseMaps, overlayMaps).addTo(map);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="main">
+      <div id="mapdiv">
+        {% leaflet_map "gis" callback="window.our_layers" %}
+      </div>
+      <div id="actiondiv">
+        <h1>ShapeEditor</h1>
+        {% if shapefiles %}
+        <b>Available Shapefiles:</b>
+        <table
+          border="0"
+          cellspacing="0"
+          cellpadding="5"
+          style="padding-left:20px"
+        >
+          {% for shapefile in shapefiles %}
+          <tr>
+            <td>
+              <font style="font-family:monospace">
+                {{ shapefile.filename }}
+              </font>
+            </td>
+            <td>&nbsp;</td>
+            <td>
+              <button title="Edit This Shapefile">
+                <a href="/edit/{{ shapefile.id }}">Edit</a>
+              </button>
+            </td>
+            <td>&nbsp;</td>
+            <td>
+              <button title="Export This Shapefile">
+                <a href="/export/{{ shapefile.id }}">Export</a>
+              </button>
+            </td>
+            <td>&nbsp;</td>
+            <td>
+              <button title="Delete This Shapefile">
+                <a href="/delete/{{ shapefile.id }}">Delete</a>
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+        {% endif %}
+        <button
+          type="button"
+          title="Upload Your Shapefile"
+          onClick='window.location="/import";'
+        >
+          Import New Shapefile
+        </button>
+      </div>
+    </div>
+  </body>
+</html>

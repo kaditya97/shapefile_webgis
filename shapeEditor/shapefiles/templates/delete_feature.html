@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <title>ShapeEditor</title>
+    <style>button {
+      background: linear-gradient(to bottom, #45a9c7 5%, #2a8ebd 100%);
+      background-color: #45a9c7;
+      border-radius: 28px;
+      border: 1px solid #1bdbcb;
+      display: inline-block;
+      cursor: pointer;
+      color: #ffffff;
+      font-family: Arial;
+      font-size: 17px;
+      padding: 8px 16px;
+      text-decoration: none;
+      text-shadow: 0px 1px 0px #28665e;
+    }
+    button:hover {
+      background: linear-gradient(to bottom, #2a8ebd 5%, #45a9c7 100%);
+      background-color: #2a8ebd;
+    }
+    button:active {
+      position: relative;
+      top: 1px;
+    }
+    </style>
+  </head>
+  <body>
+    <h1>Delete Feature</h1>
+    <form method="POST">
+      Are you sure you want to delete this feature?
+      <p />
+      <button type="submit" name="confirm" value="1">Delete</button>
+      &nbsp;
+      <button type="submit" name="confirm" value="0">Cancel</button>
+    </form>
+  </body>
+</html>
